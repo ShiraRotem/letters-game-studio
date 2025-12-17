@@ -40,10 +40,10 @@ function App() {
     
     // Audio instructions logic
     if (isFirstRound.current) {
-      speak(`Find the word that starts with ${data.letter}`);
+      speak(`Find the word that starts with ${data.letter}!`);
       isFirstRound.current = false;
     } else {
-      speak(data.letter);
+      speak(`${data.letter}!`);
     }
     
     isFetching.current = false;
@@ -67,7 +67,7 @@ function App() {
       
       // Speak the chosen word after a short delay to let the Yay sound play
       setTimeout(() => {
-        speak(chosenOption.word);
+        speak(`${chosenOption.word}!`);
       }, 800);
 
       setGameState(GameState.SUCCESS);

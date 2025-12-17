@@ -49,17 +49,24 @@ export const useAudio = () => {
     playTone(200, 'sawtooth', 0.4, now + 0.2);
     
     // Also speak it
-    speak("Try again");
+    speak("Try again!");
   }, []);
 
   const speak = useCallback((text: string) => {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.9;
-      utterance.pitch = 1.1; // Slightly higher pitch for kids
-      // Try to find a friendly voice
+      utterance.rate = 1.1; // Slightly faster for energy
+      utterance.pitch = 1.35; // Higher pitch sounds friendlier and more fun for kids
+      
       const voices = window.speechSynthesis.getVoices();
-      const preferredVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female')) || voices[0];
+      
+      // Attempt to pick a high quality voice if available
+      const preferredVoice = 
+        voices.find(v => v.name === 'Google US English') ||
+        voices.find(v => v.lang.startsWith('en-US') && v.name.includes('Samantha')) ||
+        voices.find(v => v.lang.startsWith('en') && v.name.includes('Female')) ||
+        voices.find(v => v.lang.startsWith('en'));
+
       if (preferredVoice) utterance.voice = preferredVoice;
       
       window.speechSynthesis.cancel(); // Clear queue
